@@ -1,4 +1,4 @@
-see REAME.txt for the formatted version
+see REAME.txt for the formatted version of this documented.
 
 AnaLogi-c 0.1, Web interface for OSSEC based on AnaLogi v1.3
 ===
