@@ -15,12 +15,12 @@ if(isset($_GET['action']) && $_GET['action']=='delete' && preg_match("/\/managem
 	if(isset($_GET['rule_id']) && is_numeric($_GET['rule_id']) && strlen($_GET['rule_id'])>0){
 		$where.="alert.rule_id=".$_GET['rule_id']." AND ";
 	}
-	
+
 	# deletelevel
 	if(isset($_GET['level']) && is_numeric($_GET['level']) && $_GET['level']>0){
 		$where.="signature.level=".$_GET['level']." AND ";
 	}
-	
+
 	# deletebefore
 	if(isset($_GET['before']) && is_numeric($_GET['before']) && $_GET['before']>0){
 		$where.="alert.timestamp<".$_GET['before']." AND ";
@@ -37,7 +37,7 @@ if(isset($_GET['action']) && $_GET['action']=='delete' && preg_match("/\/managem
 	if(isset($_GET['datamatch']) && strlen($_GET['datamatch'])>0){
 		$where.="data.full_log like \"%".$_GET['datamatch']."%\" AND ";
 	}
-	
+
 	$query="";
 	# Only run if paramters set, do NOT empty the database!
 	if(strlen($where) > 0){
@@ -58,14 +58,14 @@ if(isset($_GET['action']) && $_GET['action']=='delete' && preg_match("/\/managem
 			$query="OPTIMIZE TABLE data;";
 			mysql_query($query, $db_ossec);
 		}
-	
+
 		if($glb_detailsql==1){
 		#	For niceness show the SQL queries, just incase you want to dig deeper your self
 			echo "<div class='clr' style='padding-bottom:20px;'></div>
 				<div class='fleft top10header'>SQL (".$resultdelete.")</div>
 				<div class='fleft tiny' style=''>".htmlspecialchars($querydelete)."</div>";
 		}
-	}	
+	}
 }
 
 ### Removing a location
@@ -93,7 +93,7 @@ if(isset($_GET['action']) && $_GET['action']=='removelocation' && isset($_GET['s
 
 	# Delete location
 	$querydelete="DELETE FROM location
-		WHERE location.name like \"".$_GET['source']."%\"";	
+		WHERE location.name like \"".$_GET['source']."%\"";
 	$resultdelete=mysql_query($querydelete, $db_ossec);
 	if($glb_detailsql==1){
 		#For niceness show the SQL queries, just incase you want to dig deeper your self
@@ -106,7 +106,7 @@ if(isset($_GET['action']) && $_GET['action']=='removelocation' && isset($_GET['s
 }
 
 
-	
+
 
 ### Oldest alert
 $query="SELECT alert.timestamp as age
@@ -147,7 +147,7 @@ while($row = @mysql_fetch_assoc($result)){
 $filterbefore="";
 for ($i = 0; $i < 48; $i++) {
 	$timestamp = mktime(0, 0, 0, date('n') - $i, 1);
-	$filterbefore.="<option value='".$timestamp."'>".date("M Y", $timestamp)."</option>";	
+	$filterbefore.="<option value='".$timestamp."'>".date("M Y", $timestamp)."</option>";
 }
 
 ?>
@@ -178,7 +178,7 @@ include "page_refresh.php";
 		# this can be turned off
 		include './php/management_sourcelevel.php';
 		echo "
-		
+
 		";
 		include './php/management_timevolume.php';
 	}else{
@@ -190,7 +190,7 @@ include "page_refresh.php";
 	?>
 
 	timemanagementaverage = "<?php echo $graph_timemanagement_average; ?>";
-	
+
 	AmCharts.ready(function () {
 
 		//#########################################################
@@ -202,7 +202,7 @@ include "page_refresh.php";
 		chart.categoryField = "source";
 		chart.plotAreaBorderAlpha = 0.2;
 		chart.rotate = true;
-		
+
 		// AXES
 		// Category
 		var categoryAxis = chart.categoryAxis;
@@ -210,7 +210,7 @@ include "page_refresh.php";
 		categoryAxis.axisAlpha = 0;
 		categoryAxis.gridPosition = "start";
 
-		// value                      
+		// value
 		var valueAxis = new AmCharts.ValueAxis();
 		valueAxis.stackType = "regular";
 		valueAxis.gridAlpha = 0.1;
@@ -235,7 +235,7 @@ include "page_refresh.php";
 
 		var chart_timemanagement;
 
-		// SERIAL CHART    
+		// SERIAL CHART
 		chart_timemanagement = new AmCharts.AmSerialChart();
 		chart_timemanagement.dataProvider = chartData_timemanagement;
 		chart_timemanagement.categoryField = "date";
@@ -249,13 +249,13 @@ include "page_refresh.php";
 		categoryAxis_timemanagement.gridAlpha = 0.15;
 		categoryAxis_timemanagement.axisColor = "#DADADA";
 
-		// value                
+		// value
 		var valueAxis_timemanagement = new AmCharts.ValueAxis();
 		valueAxis_timemanagement.axisColor = "#DADADA";
 		valueAxis_timemanagement.dashLength = 1;
 		valueAxis_timemanagement.title = "Daily Alerts";
 		chart_timemanagement.addValueAxis(valueAxis_timemanagement);
-		// value                
+		// value
 		var valueAxis_timemanagement2 = new AmCharts.ValueAxis();
 		valueAxis_timemanagement2.axisColor = "#DADADA";
 		valueAxis_timemanagement2.dashLength = 1;
@@ -307,20 +307,21 @@ include "page_refresh.php";
 
 <?php include './header.php'; ?>
 
-<div class='clr' style="margin-top:10px;"></div>	
+<div class='clr' style="margin-top:10px;"></div>
 
 
 <div class="top10header">Contents</div>
 <div style="padding:10px;">
-	<div class="contents"><a href='./management.php#intro'>Intro</a></div>
-	<div class="contents"><a href='./management.php#agents'>Last Agent Alert</a></div>
-	<div class="contents"><a href='./management.php#ruletweaking'>Rule Tweaking</a></div>
-	<div class="contents"><a href='./management.php#databasesummary'>Database Size Summary</a></div>
-	<div class="contents"><a href='./management.php#databasecleanup'>Database cleanup</a></div>
-	<div class="contents"><a href='./management.php#removelocation'>Remove Location (OSSEC client)</a></div>
+	<!--fixed: per https://github.com/ECSC/analogi/issues/7 -->
+	<div class="contents"><a href='./management.php?#intro'>Intro</a></div>
+	<div class="contents"><a href='./management.php?#agents'>Last Agent Alert</a></div>
+	<div class="contents"><a href='./management.php?#ruletweaking'>Rule Tweaking</a></div>
+	<div class="contents"><a href='./management.php?#databasesummary'>Database Size Summary</a></div>
+	<div class="contents"><a href='./management.php?#databasecleanup'>Database cleanup</a></div>
+	<div class="contents"><a href='./management.php?#removelocation'>Remove Location (OSSEC client)</a></div>
 </div>
 
-<a name="intro"></a> 
+<a name="intro"></a>
 <div class="top10header">Intro</div>
 <div class="introbody">All of this reflects the data held in your SQL database and is not linked in anyway to the flat file logs written by OSSEC.</div>
 
@@ -334,7 +335,7 @@ include "page_refresh.php";
 
 
 
-<a name="agents"></a> 
+<a name="agents"></a>
 <div class="top10header">Last Agent Alert</div>
 <div class="introbody">Looking for Agents that have no alerts in the last  <span class='tw'><?php echo $glb_management_checkin; ?></span> Hours. If you have deleted Alerts this may give a misleading result. This will NOT display agents that have NEVER connected.</div>
 <div style="padding:10px;">
@@ -354,22 +355,34 @@ include "page_refresh.php";
 <div class="top10header">Database Summary</div>
 <?php include 'php/management_databasesize.php'; ?>
 
-<div class='clr' style="margin-top:10px;"></div>	
+<div class='clr' style="margin-top:10px;"></div>
 
 <div class="top10header">Database Usage - Client vs Level</div>
 <div class="introbody">In the case where there are to many hosts in the database that this graph becomes a hinderance disable <span class='tw'>$glb_management_clientvslevel</span> in config.php</div>
 <div class='clr'></div>
-<?php echo $clientvsleveldebugstring; ?>
+<?php
+//fixed: Undefined variable: $clientvsleveldebugstring in /srv/website/htdocs/analogi/management.php on line 362
+if(isset($clientvsleveldebugstring))
+	echo $clientvsleveldebugstring;
+else
+	echo 'Error: "$clientvsleveldebugstring" not set, management.php line 368';
+?>
 <div id="chartdiv" class="fleft" style="width:90%; height:750px"></div>
 
-<div class='clr' style="margin-top:10px;"></div>	
+<div class='clr' style="margin-top:10px;"></div>
 
 <div class="top10header" >Database Usage - Overtime</div>
-<?php echo $timevolumedebugstring; ?>
+<?php
+//fixed: Undefined variable: $timevolumedebugstring in /srv/website/htdocs/analogi/management.php on line 375
+if(isset($timevolumedebugstring))
+	echo $timevolumedebugstring;
+else
+	echo 'Error: "$timevolumedebugstring" not set, management.php line 375';
+?>
 <div class='clr'></div>
 <div id="chartdiv_timemanagement" class="fleft" style="width:90%; height:450px"></div>
 
-<div class='clr' style="margin-top:10px;"></div>	
+<div class='clr' style="margin-top:10px;"></div>
 
 <a name="databasecleanup"></a>
 <div class="top10header">Database Cleanup</div>
@@ -379,7 +392,7 @@ include "page_refresh.php";
 	<li>Delete all alerts for 'Server XYZ'
 	<li>Delete all alerts level 5 or below
 	<li>Delete all rule 5104 that is older than 2 months
-	<li>Delete all proxy logs that are older than 4 months 
+	<li>Delete all proxy logs that are older than 4 months
 </div>
 <div style="padding:10px;">
 	<form method='GET' action='./management.php?action=delete'>
@@ -427,7 +440,7 @@ include "page_refresh.php";
 	</form>
 </div>
 
-<div class='clr' style="margin-top:10px;"></div>	
+<div class='clr' style="margin-top:10px;"></div>
 
 <a name="removelocation"></a>
 <div class="top10header">Remove Location (OSSEC client)</div>

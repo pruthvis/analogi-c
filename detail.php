@@ -14,7 +14,7 @@ $where="";
 # filter<var> = for repopulating the filter toolbar
 # where = the cumulative sql command
 
-## filter criteria 'levelmin' and 'levelmax' 
+## filter criteria 'levelmin' and 'levelmax'
 if(isset($_GET['levelmin']) && preg_match("/^[0-9]+$/", $_GET['levelmin'])){
 	$inputlevelmin=$_GET['levelmin'];
 	$where.="AND signature.level>=".$inputlevelmin." ";
@@ -59,7 +59,7 @@ if(isset($_GET['from']) && preg_match("/^[0-9\ ]+$/", $_GET['from'])){
 	$inputfrom="";
 	$filterfrom=$inputfrom;
 	$where.="";
-} 
+}
 
 ## filter to
 if(isset($_GET['to']) && preg_match("/^[0-9\ ]+$/", $_GET['to'])){
@@ -74,7 +74,7 @@ if(isset($_GET['to']) && preg_match("/^[0-9\ ]+$/", $_GET['to'])){
 	$inputto="";
 	$filterto=$inputto;
 	$where.="";
-} 
+}
 
 
 ## filter criteria 'source'
@@ -120,7 +120,7 @@ while($row = @mysql_fetch_assoc($result)){
 if(isset($_GET['rule_id']) && preg_match("/^[0-9,\ ]+$/", $_GET['rule_id'])){
 	$inputrule_id=$_GET['rule_id'];
 	$filterule_id=$inputrule_id;
-		
+
 	$inputrule_id_array=preg_split('/,/', $inputrule_id);
 
 	$where.="AND (1=0 ";
@@ -142,7 +142,7 @@ if(isset($_GET['rule_id']) && preg_match("/^[0-9,\ ]+$/", $_GET['rule_id'])){
 	$filterule_id=$inputrule_id;
 	$where.="";
 	$noterule_id="";
-}	
+}
 
 
 
@@ -252,7 +252,7 @@ include "page_refresh.php";
 		$('.toggle').click(function(){
 			id = $(this).parent().attr("id");
 			toggled = $(this).parent().find(".toggled");
-			
+
 			toggled.slideToggle('fast', function(){
 				cookie = (toggled.is(":hidden")) ? "0" : "1";
 				setCookie("hideshow"+id, cookie, "100");
@@ -333,7 +333,7 @@ include "page_refresh.php";
 		categoryAxis.gridAlpha = 0;
 		categoryAxis.axisAlpha = 0;
 		categoryAxis.gridPosition = "start";
-		categoryAxis.position = "top";		
+		categoryAxis.position = "top";
 		categoryAxis.parseDates = true;
 		categoryAxis.minPeriod = "mm";
 		categoryAxis.equalSpacing = false;
@@ -369,12 +369,12 @@ include "page_refresh.php";
 		function setPanSelect() {
 			if (document.getElementById("rb1").checked) {
 				chartCursor.pan = false;
-				chartCursor.zoomable = true;		
+				chartCursor.zoomable = true;
 			} else {
 				chartCursor.pan = true;
 			}
 			chart.validateNow();
-		}  
+		}
 
 		<?php echo $graphlines; ?>
 
@@ -388,14 +388,14 @@ include "page_refresh.php";
 });
 
 </script>
-	
+
 
 </head>
 <body onload="databasetest()">
 
 <?php include './header.php'; ?>
-		
-<div class='clr'></div>	
+
+<div class='clr'></div>
 
 <div id="chartdiv" style="width:100%; height:400px;"></div>
 
@@ -498,7 +498,7 @@ include "page_refresh.php";
 	$resultcounttable=mysql_query($querycounttable, $db_ossec);
 	$rowcounttable = @mysql_fetch_assoc($resultcounttable);
 	$resultablerows=$rowcounttable['res_cnt'];
-	
+
 	# Fetch the actual rows of data for the table
 	$querytable="SELECT alert.id as id, alert.rule_id as rule, signature.level as lvl, alert.timestamp as timestamp, location.name as loc, data.full_log as data, alert.src_ip as src_ip
 		FROM alert, location, signature, data ".$wherecategory_tables."
@@ -509,13 +509,13 @@ include "page_refresh.php";
 		".$where."
 		".$wherecategory_and."
 		ORDER BY alert.timestamp DESC
-		LIMIT ".$inputlimit;		
+		LIMIT ".$inputlimit;
 	$resulttable=mysql_query($querytable, $db_ossec);
 
 	$mainstring.= "<div class='newboxes toggled'><table class='dump sortable' id='sortabletable'  style='width:100%' ><tr>
 		<th>ID</th><th>Rule</th><th>Lvl</th><th>Timestamp</th><th>Location</th><th>IP</th><th>Data</th>
 		</tr>";
-	
+
 	$rowcount=0;
 
 	# This sets up the ability to highlight keywords below
@@ -528,7 +528,7 @@ include "page_refresh.php";
 
 	$mostcommonwords = array();
 	$datasummary = array();
-	
+
 
 	while($rowtable = @mysql_fetch_assoc($resulttable)){
 
@@ -546,7 +546,7 @@ include "page_refresh.php";
 		$mainstring.= "<td>".htmlspecialchars($rowtable['lvl'])."</td>";
 		$mainstring.= "<td>".date($glb_detailtimestamp, $rowtable['timestamp'])."</td>";
 		$mainstring.= "<td>".htmlspecialchars(preg_replace("/ [0-9\.]*->/"," ",$rowtable['loc']))."</td>";
-	
+
 		# See if there is an IP assigned to alert
 		$datatableip=long2ip($rowtable['src_ip']);
 		if($datatableip=="0.0.0.0"){
@@ -554,7 +554,7 @@ include "page_refresh.php";
 		}else{
 			$datatableip=preg_replace("/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/", "<a href='ip_info.php?ip=$1'>$1</a>", $datatableip);
 			$mainstring.= "<td>".$datatableip."</td>";
-		}	
+		}
 
 		# Process the full_log data
 		$data=$rowtable['data'];
@@ -567,6 +567,7 @@ include "page_refresh.php";
 		$phraseline=preg_split("/ /", $rowtable['data']);
 		foreach($phraseline as $phrase){
 			$phrase2=preg_replace("/=[a-zA-Z0-9\%\,\~\_\.\-]+&/", "=&", $phrase);
+			$datasummary[$phrase2] = 0;	//fixed: "Undefined index" error
 			# I have this hard coded as I think it will run faster than a glb_config array foreach loop
 			if(
 			preg_match("/^http/", $phrase2) # match web sites
@@ -575,7 +576,7 @@ include "page_refresh.php";
 			|| preg_match("/^[A-Z_]+\/[0-9]+$/", $phrase2) # match HTTP return codes and proxy cache peer
 			){
 				$datasummary[$phrase2]++;
-			}	
+			}
 		}
 	}
 	$mainstring.= "</table></div>";
@@ -599,7 +600,7 @@ include "page_refresh.php";
 	}
 	echo "</table><div class='clr' style='border-top:20px;'>&nbsp;</div></div></div>";
 
-	
+
 	# Title
 	echo "<div id='data'><div class='top10header toggle'>Data</div>";
 
@@ -628,7 +629,7 @@ include "page_refresh.php";
 		echo "<div class='clr' style='padding-bottom:20px;'></div>
 			<div class='fleft top10header'>SQL (Chart)</div>
 			<div class='fleft tiny' style=''>".htmlspecialchars($querychart)."</div>";
-	
+
 		echo "<div class='clr' style='padding-bottom:20px;'></div>
 			<div class='fleft top10header'>SQL (Table)</div>
 			<div class='fleft tiny' style=''>".htmlspecialchars($querytable)."</div>";

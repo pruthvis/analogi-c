@@ -10,6 +10,9 @@
 
 <div class="fright" style='margin-top:10px;margin-bottom:10px;' >
 	<?php
+//fixed: undefined var: $glb_ossecdb
+include './config.php';
+
 	if(count($glb_ossecdb)>1){
 		echo "
 		<form action='./index.php'>
@@ -40,6 +43,7 @@
 	<a class='tiny tinyblack' href='./about.php'>About</a>
 	<br>
 	<?php
-	echo $wallboard_url;
+		if(isset($wallboard_url))	//fixed: [by if] undefined var $wallboard_url
+			echo $wallboard_url;
 	?>
 </div>

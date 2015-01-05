@@ -17,13 +17,19 @@ if(!(isset($_GET['ip']) && $_GET['ip']) || !filter_var($_GET['ip'], FILTER_VALID
 $url="http://freegeoip.net/json/".$ip;
 $content=get_content($url);
 $jsoned = json_decode($content);
-$jsonlat=$jsoned->{'latitude'};
-$jsonlng=$jsoned->{'longitude'};
-if($jsonlat==""){
-	$jsonlat="0";
-}
-if($jsonlng==""){
+//fixed: Notice: Trying to get property of non-object in /srv/website/htdocs/git/analogi-c/ip_info.php on line 20
+if(!isset($jsoned)) {
 	$jsonlng="0";
+	$jsonlat="0";
+} else {
+	$jsonlat=$jsoned->{'latitude'};
+	$jsonlng=$jsoned->{'longitude'};
+	if($jsonlat==""){
+		$jsonlat="0";
+	}
+	if($jsonlng==""){
+		$jsonlng="0";
+	}
 }
 
 #var_dump($jsoned);
@@ -105,7 +111,11 @@ include "page_refresh.php";
 
 
 </head>
-<body onload="databasetest()">
+<!-- //fixed:  'databasetest' is undefined
+	<body onload="databasetest()">
+-->
+<body>
+
 
 <?php include './header.php'; ?>
 <div class='clr'></div>
@@ -145,7 +155,10 @@ include "page_refresh.php";
 	<div class='clr gap'></div>
 
 	<div class='wide fleft'>Country</div>
-	<div class='fleft'><?php echo $jsoned->{'country_name'} ?></div>
+	<div class='fleft'><?php 
+		//fixed: Notice: Trying to get property of non-object in /srv/website/htdocs/analogi/ip_info.php on line 157 
+		echo (isset($jsoned) ? $jsoned->{'country_name'} : '') 
+	?></div>
 	<div class='clr gap'></div>
 
 	<div class='wide fleft'>Detail Breakdown</div>

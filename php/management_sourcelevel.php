@@ -4,10 +4,10 @@
  * This program is free software; Distributed under the terms of the GNU GPL v3.
  */
 
-$query="SELECT count(alert.id) as res_cnt, SUBSTRING_INDEX(SUBSTRING_INDEX(location.name, ' ', 1), '->', 1) as res_name, location.id as res_id , signature.level as res_level       
-	FROM alert, location, signature  
-	WHERE alert.location_id = location.id         
-	AND alert.rule_id = signature.rule_id         
+$query="SELECT count(alert.id) as res_cnt, SUBSTRING_INDEX(SUBSTRING_INDEX(location.name, ' ', 1), '->', 1) as res_name, location.id as res_id , signature.level as res_level
+	FROM alert, location, signature
+	WHERE alert.location_id = location.id
+	AND alert.rule_id = signature.rule_id
 	GROUP BY res_name, res_level
 	ORDER BY res_name, res_level";
 
@@ -15,10 +15,11 @@ $query="SELECT count(alert.id) as res_cnt, SUBSTRING_INDEX(SUBSTRING_INDEX(locat
 
 
 $mainstring="";
+$clientvsleveldebugstring = '';  //fixed: Undefined variable: $clientvsleveldebugstring in /srv/website/htdocs/analogi/management.php on line 369
 if($glb_debug==1){
 	$mainstring="var chartData = []";
-	# Oh this is setting a bad code precedent 
-	$clientvsleveldebugstring="<div style='font-size:24px; color:red;font-family: Helvetica,Arial,sans-serif;'>Debug</div>"; 
+	# Oh this is setting a bad code precedent
+	$clientvsleveldebugstring="<div style='font-size:24px; color:red;font-family: Helvetica,Arial,sans-serif;'>Debug</div>";
 	$clientvsleveldebugstring.=$query;
 
 }else{
@@ -38,31 +39,31 @@ if($glb_debug==1){
 	$i=0;
 	$graphcount=0;
 	foreach($sourcelevel as $key=>$val){
-	
-		$graphcount++;	
-	
+
+		$graphcount++;
+
 		# $key = (boxname)
-	
+
 		if($i==1){
 			$mainstring.=",";
 		}
-		
+
 		$i=1;
-	
+
 		$mainstring.="
 			{source:\"".preg_replace($glb_hostnamereplace,"",$key)."\",";
-	
+
 		foreach($val as $k=>$v){
 			# $k = level
 			# $v = count
-	
-			$mainstring.=" level".$k.":".$v.",";	
-	
+
+			$mainstring.=" level".$k.":".$v.",";
+
 		}
-		$mainstring=eregi_replace(',$', '', $mainstring); 
+		$mainstring=eregi_replace(',$', '', $mainstring);
 		$mainstring.="}";
 	}
-	$mainstring=eregi_replace(',$', '', $mainstring); 
+	$mainstring=eregi_replace(',$', '', $mainstring);
 	$mainstring.="
 		];";
 }
@@ -77,7 +78,7 @@ $graphheight="  document.getElementById('chartdiv').style.height='".($graphcount
 $graphstring="";
 
 for($i; $i<16;$i++){
-	
+
 	# Once for each level of alert (0-15)
 	$graphstring.= "
 		// Graph ".$i."
