@@ -1,5 +1,6 @@
-AnaLogi-c 0.1
-Web interface for OSSEC based on AnaLogi v1.3
+see REAME.txt for the formatted version
+
+AnaLogi-c 0.1, Web interface for OSSEC based on AnaLogi v1.3
 ===
 The goal of this fork of Analogi is to make available to the the community
 updates made to resolve issues running Analogi in my environment:
