@@ -22,19 +22,20 @@ if(strlen($wherecategory)>5){
 
 $query="SELECT count(alert.id) as res_cnt, alert.rule_id as res_id, signature.description as res_desc, signature.rule_id as res_rule
 	FROM alert, signature ".$wherecategory_tables."
-	WHERE alert.timestamp>'".(time()-($inputhours*60*60))."' 
-	and alert.rule_id=signature.rule_id 
+	WHERE alert.timestamp>'".(time()-($inputhours*60*60))."'
+	and alert.rule_id=signature.rule_id
 	".$wherecategory_and."
 	AND signature.level>=".$inputlevel."
-	".$glb_notrepresentedwhitelist_sql." 
-	".$wherecategory." 
-	GROUP BY res_id, res_desc, res_rule  
+	".$glb_notrepresentedwhitelist_sql."
+	".$wherecategory."
+	GROUP BY res_id, res_desc, res_rule
 	ORDER BY count(alert.id) DESC
-	LIMIT ".$glb_indexsubtablelimit; 
+	LIMIT ".$glb_indexsubtablelimit;
 
 echo "<div class='top10header'>
-	<a href='#' class='tooltip'><img src='./images/help.png' /><span>Busiest rules in given time period.</span></a>
-	Top Rule_ID, <span class='tw'>".$inputhours."</span> Hrs (lvl <span class='tw'>".($inputlevel)."</span>+)</div>";
+	Top Rules - <span class='tw'>".$inputhours."</span> Hrs Lvl <span class='tw'>".($inputlevel)."</span>+
+	<a href='#' class='tooltip'><img src='./images/help.png' /><span>Busiest rules in given time frame.</span></a>
+	</div>";
 
 $mainstring="";
 
@@ -54,14 +55,22 @@ if(!$result=mysql_query($query, $db_ossec)){
 
 	# Keep this in the same format that detail.php already uses
 	$from=date("Hi dmy", (time()-($inputhours*3600)));
-	
+
 	while($row = @mysql_fetch_assoc($result)){
+/*	//changed:
 		$mainstring.="<div class='fleft top10data' style='width:60px'>".number_format($row['res_cnt'])."</div>
 				<div class='fleft top10data'><a class='top10data tooltip_small' href='./detail.php?rule_id=".$row['res_rule']."&from=".$from."&breakdown=source'>".htmlspecialchars(substr($row['res_desc'], 0, 28))."...<span>".htmlspecialchars($row['res_desc'])."</span></a></div>";
-	
 		$mainstring.="			<div class='clr'></div>";
+*/
+		$stmp = htmlspecialchars( "[{$row['res_rule']}]  {$row['res_desc']}" );
+		//$stmp = $apputils->strTrunc($stmp, 80);
+		$mainstring.="<tr><td class=top10dataCol1>".number_format($row['res_cnt'])."</td><td class=top10dataCol2>
+				<a href='./detail.php?rule_id=".$row['res_rule']."&from=".$from."&breakdown=source'>"
+				.$stmp."</a></td></tr>";
 	}
-	
+	if($mainstring !== "")
+		$mainstring = "<table id=tbTopRules class=top10Table>".$mainstring."</table>";
+
 }
 
 if($mainstring==""){

@@ -52,7 +52,7 @@ time check out the settings:
 $ vim analogi-c/config.php
 
 
-1. Commit 1
+1. Master Branch, Commit 1
 ===
 This commit fixes issues arising from the use of PHP's "E_STRICT"
 error reporting. When I initially ran Analogi 1.3, PHP threw a few "Undefined
@@ -69,9 +69,9 @@ User interface and functionality is unchanged from original Analogi 1.3. However
 there may be some functionality I can't see because its just broken.
 
 
-2. Branch UIUpdates
+2. UIUpdates Branch
 ===
-- contains prior PHP fixes
+- contains PHP fixes from Master branch
 - HTML, CSS tweaks
 - made wording more consistent
 - added rule_id to a few lists

@@ -200,7 +200,7 @@ if(isset($_GET['limit']) && is_numeric($_GET['limit']) && $_GET['limit']<1000){
 }
 
 
-### filter alet 'categories'
+### filter alert 'categories'
 if(isset($_GET['category']) && preg_match("/^[0-9]+$/", $_GET['category'])){
 	$inputcategory=$_GET['category'];
 	$filtercagetory=$inputcategory;
@@ -394,92 +394,117 @@ include "page_refresh.php";
 <body onload="databasetest()">
 
 <?php include './header.php'; ?>
-
 <div class='clr'></div>
 
-<div id="chartdiv" style="width:100%; height:400px;"></div>
+<!-- Filters dialog -->
+<div id='filters'>
+	<div class='top10header toggle' title='Click to show/hide Filter controls.' style='width:100%'>Filters</div>
+	<div class='newboxes toggled' style='display: block;'>
+		<form method='GET' action='./detail.php'>
 
-<div id='filters'><div class='top10header fleft toggle'>Filters</div>
-<div class='clr'></div>
-<div class='newboxes toggled' style='display: block;'>
-	<form method='GET' action='./detail.php'>
-		<div class='fleft filters'>
-			RuleID
-			<a href="#" class="tooltip"><img src='./images/help.png' /><span>Comma separated allowed, e.g. "503,504"</span></a>
-			<br/>
-			<input type='text' size='6' name='rule_id' value='<?php echo $filterule_id; ?>' style='font-size:12px' />
-			<br>
-			Category<br/>
-			<select name='category'>
-				<option value=''>--</option>
-				<?php echo $filtercategory; ?>
-			</select>
-		</div>
-		<div class='fleft filters'>
-			Level Min<br/>
-			<select name='levelmin' style='font-size:12px' >
-				<option value=''>--</option>
-				<?php echo $filterlevelmin; ?>
-			</select>
-			<br>
-			Level Max<br/>
-			<select name='levelmax' style='font-size:12px' >
-				<option value=''>--</option>
-				<?php echo $filterlevelmax; ?>
-			</select>
-		</div>
-		<div class='fleft filters'>
-			From <span style='font-size:10px;'>(HHMM DDMMYY)</span><br/>
-			<input type='text' size='11' name='from' value='<?php echo $filterfrom; ?>' style='font-size:12px' />
-			<br>
-			To <span style='font-size:10px;'>(HHMM DDMMYY)</span><br/>
-			<input type='text' size='10' name='to' value='<?php echo $filterto; ?>' style='font-size:12px' />
-		</div>
-		<div class='fleft filters'>
-			Source<br/>
-			<select name='source' style='font-size:12px'>
-				<option value=''>--</option>
-				<?php echo $filtersource; ?>
-			</select>
-			<br>
-			Path<br/>
-			<select name='path'  style='font-size:12px'>
-				<option value=''>--</option>
-				<?php echo $filterpath; ?>
-			</select>
-		</div>
-		<div class='fleft filters'>
-			<a href="#" class="tooltip"><img src='./images/help.png' /><span>Look for keywords in the full log entry</span></a>
-			Data Match
-			<br/>
-			<input type='text' size='7' name='datamatch' value='<?php echo $filterdatamatch; ?>' style='font-size:12px'/>
-			<br>
-			<a href="#" class="tooltip"><img src='./images/help.png' /><span>Exclude keywords in the full log entry</span></a>
-			Data Exclude
-			<br/>
-			<input type='text' size='7' name='dataexclude' value='<?php echo $filterdataexclude; ?>' style='font-size:12px'/>
-		</div>
-		<div class='fleft filters'>
-			<a href="#" class="tooltip"><img src='./images/help.png' /><span>Alert IP, not IPs that appear in the data field</span></a>
-			IP Match
-			<br/>
-			<input type='text' size='7' name='ipmatch' value='<?php echo $filteripmatch; ?>' style='font-size:12px'/>
-			<br>
-			<a href="#" class="tooltip"><img src='./images/help.png' /><span>Look for rules containing keywords, i.e. 'XSS' will look for all rules that target XSS</span></a>
-			Rule Match
-			<br/>
-			<input type='text' size='7' name='rulematch' value='<?php echo $filterrulematch; ?>' style='font-size:12px' />
-		</div>
-		<div class='fleft filters'>
-			<br/>
-			<input type='submit' value='..go' />
-		</div>
-	</form>
-	<div class='clr'></div>
-	<div><?php echo $noterule_id; ?></div>
+			<table style='margin:0;padding:5px 0 0 10px;width:60em'><tr>
+				<td>
+				<label class='lblFilters'>
+					RuleID
+					<a href="#" class="tooltip"><img src='./images/help.png' /><span>Comma separated allowed, e.g. "503,504"</span></a>
+					<input type='text' name='rule_id' value='<?php echo $filterule_id; ?>' />
+				</label>
+				<br>
+				<label class='lblFilters'>
+					Rule Match
+					<a href="#" class="tooltip"><img src='./images/help.png' /><span>Look for rules containing keywords, i.e. 'XSS' will look for all rules that target XSS</span></a>
+					<input type='text' name='rulematch' value='<?php echo $filterrulematch; ?>' />
+				</label>
+				<br>
+				<label class='lblFilters'>
+					IP Match
+					<a href="#" class="tooltip"><img src='./images/help.png' /><span>Alert IP, not IPs that appear in the data field</span></a>
+					<input type='text' name='ipmatch' value='<?php echo $filteripmatch; ?>' />
+				</label>
+				<br>
+
+			</td><td>
+				<label class='lblFilters'>
+					Category
+					<select name='category'>
+						<option value=''>--</option>
+						<?php echo $filtercategory; ?>
+					</select>
+				</label>
+				<br>
+				<label class='lblFilters'>
+					Level Min
+					<select name='levelmin' >
+						<option value=''>--</option>
+						<?php echo $filterlevelmin; ?>
+					</select>
+				</label>
+				<br>
+				<label class='lblFilters'>
+					Level Max
+					<select name='levelmax' >
+						<option value=''>--</option>
+						<?php echo $filterlevelmax; ?>
+					</select>
+				</label>
+
+			</td><td>
+				<label class='lblFilters'>
+					From(HHMM DDMMYY)
+					<input type='text' size='5' name='from' value='<?php echo $filterfrom; ?>' />
+				</label>
+				<label class='lblFilters'>
+					To (HHMM DDMMYY)
+					<input type='text' size='5' name='to' value='<?php echo $filterto; ?>' />
+				</label>
+				<br>
+				<label class='lblFilters'>
+					Source
+					<select name='source'>
+						<option value=''>--</option>
+						<?php echo $filtersource; ?>
+					</select>
+				</label>
+				<br>
+				<label class='lblFilters'>
+					Path
+					<select name='path'>
+						<option value=''>--</option>
+						<?php echo $filterpath; ?>
+					</select>
+				</label>
+
+			</td><td>
+				<label class='lblFilters'>
+					Data Match
+					<a href="#" class="tooltip"><img src='./images/help.png' /><span>Look for keywords in the full log entry</span></a>
+					<input type='text' size='20' name='datamatch' value='<?php echo $filterdatamatch; ?>'/>
+				</label>
+				<br>
+				<label class='lblFilters'>
+					Data Exclude
+					<a href="#" class="tooltip"><img src='./images/help.png' /><span>Exclude keywords in the full log entry</span></a>
+					<input type='text' size='20' name='dataexclude' value='<?php echo $filterdataexclude; ?>'/>
+				</label>
+				<br>
+				<input class='btnFilters' type='submit' value='go' />
+			</td>
+		</tr></table>
+<div class='clr'>&nbsp;</div>
+			</div>
+		</form>
+		<!--div style='margin:10px 0 10px 0'><b>Selected - </b> <?php echo $noterule_id; ?></div-->
 </div></div>
 
-<div class='clr' style='border-top:20px;'>&nbsp;</div>
+
+<!-- Results dialog -->
+<div>
+	<div class='top10header toggle'  style='width:100%'><b>Results - </b> <?php echo $noterule_id; ?></div>
+	<div class='newboxes toggled' style='display: block;'>
+		<div id="chartdiv" style="width:100%; height:400px;"></div>
+	</div>
+</div>
+
 
 <?php
 
@@ -512,9 +537,16 @@ include "page_refresh.php";
 		LIMIT ".$inputlimit;
 	$resulttable=mysql_query($querytable, $db_ossec);
 
-	$mainstring.= "<div class='newboxes toggled'><table class='dump sortable' id='sortabletable'  style='width:100%' ><tr>
-		<th>ID</th><th>Rule</th><th>Lvl</th><th>Timestamp</th><th>Location</th><th>IP</th><th>Data</th>
-		</tr>";
+	$mainstring.= "<div class='newboxes toggled'>
+	<table class='dump sortable' id='sortabletable' style='width:100%'><tr>
+	<th style='width:3em'>ID</th>
+	<th style='width:5em'>Rule#</th>
+	<th style='width:5em'>Level</th>
+	<th style='width:7em'>Time</th>
+	<th>Location</th>
+	<th style='width:5em'>IP</th>
+	<th>Data</th></tr>
+	";
 
 	$rowcount=0;
 
@@ -529,10 +561,9 @@ include "page_refresh.php";
 	$mostcommonwords = array();
 	$datasummary = array();
 
-
 	while($rowtable = @mysql_fetch_assoc($resulttable)){
 
-		# Dump each line to the table, be careful, this data is fromt the logs and should not be trusted
+		# Dump each line to the table, be careful, this data is from the logs and should not be trusted
 		if(isset($_GET['datamatch']) && strlen($_GET['datamatch'])>0){
 			$tabledata=preg_replace("/(".$_GET['datamatch'].")/i", '<span style="color:red">$1</span>', htmlspecialchars($rowtable['data']));
 		}else{
@@ -569,8 +600,7 @@ include "page_refresh.php";
 			$phrase2=preg_replace("/=[a-zA-Z0-9\%\,\~\_\.\-]+&/", "=&", $phrase);
 			$datasummary[$phrase2] = 0;	//fixed: "Undefined index" error
 			# I have this hard coded as I think it will run faster than a glb_config array foreach loop
-			if(
-			preg_match("/^http/", $phrase2) # match web sites
+			if(preg_match("/^http/", $phrase2) # match web sites
 			|| preg_match("/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/", $phrase2) # match IP addresses
 			|| preg_match("/\w+\.\w+\.\w+/", $phrase2) # match... file paths?
 			|| preg_match("/^[A-Z_]+\/[0-9]+$/", $phrase2) # match HTTP return codes and proxy cache peer
@@ -583,27 +613,51 @@ include "page_refresh.php";
 
 	# Dump cool phrases we found!
 	arsort($datasummary);
-	echo "
-		<div id='commonpatterns'><div class='top10header fleft toggle'>Common Patterns (Matching our Regex)</div>
-		<div class='clr' style='border-top:20px;'>&nbsp;</div>";
-
-	echo "<div class='newboxes toggled' id='commonpatterns' style='display: none;'>
+	echo "<!-- Common Patterns Dialog -->
+	<div id='commonpatterns'><div class='top10header toggle'  style='width:100%'>Common Patterns (Matching our Regex)</div>";
+	echo "<div class='newboxes toggled' id='commonpatterns' style='display:none;'>
 		<table class='dump sortable' id='sortabletable'  style='width:100%' ><tr>
 		<th>Count</th><th>Phrase</th>
 		</tr>";
 	$i=0;
 	foreach($datasummary as $key => $value){
 		if($i<$glb_commonpatternscount){
-			echo "<tr><td>".number_format($value)."</td><td><a class='numpty'>".$key."</a></td></tr>";
+			echo "<tr><td align=center>".number_format($value)."</td><td><a class='numpty'>".$key."</a></td></tr>";
 		}
 		$i++;
 	}
-	echo "</table><div class='clr' style='border-top:20px;'>&nbsp;</div></div></div>";
+	//echo "</table><div class='clr' style='border-top:20px;'>&nbsp;</div></div></div>";
+	echo "</table>
+		<div class='clr'>&nbsp;</div>
+	</div></div>";
 
 
-	# Title
-	echo "<div id='data'><div class='top10header toggle'>Data</div>";
+	//Data grid
+	if($rowcount==0)
+		$stmp = "No data matching filter criteria.";
+	else {
+		$detail2csv_get=preg_replace("/.*php\?/","",$_SERVER["REQUEST_URI"]);
+		$stmp = "<a href='./detail2csv.php?".$detail2csv_get."'  title='Download as CSV'>Download</a>";
+		if($rowcount==$glb_detailtablelimit)
+			$stmp = "<span style='color:red'>Search limited</span> to latest <span class='tw'>".number_format($rowcount)."</span> (of ".number_format($resultablerows).") results as per your global config. Please refine your search or increase the limit. &nbsp; $stmp";
+		else
+			$stmp = number_format($rowcount)." records. &nbsp; $stmp";
+	}
+	echo "
+	<!-- Data Dialog -->
+	<div id='data'>
+		<div class='top10header toggle' style='display:block;width:100%;'>
+			Data
+			<span style='font-size:0.7em;font-weight:normnal;'>&nbsp; $stmp</span>
+		</div>
+	";
+	if($rowcount > 0) {
+		echo "
+				$mainstring
+				</div>";
+	}
 
+/*
 	# This final line has to be a separate table for the 'sortable' to work
 	echo "<table class='dump sortable' style='width:100%' >";
 	if($rowcount==0){
@@ -611,7 +665,7 @@ include "page_refresh.php";
 	}elseif($rowcount==$glb_detailtablelimit){
 		echo "<tr><td colspan='6'><span style='color:red'>Search limited</span> to latest <span class='tw'>".number_format($rowcount)."</span> (of ".number_format($resultablerows).") results as per your global config. Please refine your search or increase the limit.</td></tr>";
 	}else{
-		echo "<tr><td colspan='6'>".number_format($rowcount)." records shown.</td></tr>";
+		echo "<tr><td colspan='6'>".number_format($rowcount)." records shown. &nbsp; $stmp</td></tr>";
 	}
 
 	$detail2csv_get=preg_replace("/.*php\?/","",$_SERVER["REQUEST_URI"]);
@@ -622,17 +676,21 @@ include "page_refresh.php";
 	echo "
 		$mainstring
 	";
-
+*/
 	# Show the SQL?
 	if($glb_detailsql==1){
 	#	For niceness show the SQL queries, just incase you want to dig deeper your self
-		echo "<div class='clr' style='padding-bottom:20px;'></div>
-			<div class='fleft top10header'>SQL (Chart)</div>
-			<div class='fleft tiny' style=''>".htmlspecialchars($querychart)."</div>";
+		echo "<div class='clr'>
+						<div class='top10header toggle' style='width:100%'>Filter/Chart SQL</div>
+						<div class='toggled' style='font-size:1em'>".htmlspecialchars($querychart)."
+							<div class='clr'>&nbsp;</div>
+					</div></div>";
 
-		echo "<div class='clr' style='padding-bottom:20px;'></div>
-			<div class='fleft top10header'>SQL (Table)</div>
-			<div class='fleft tiny' style=''>".htmlspecialchars($querytable)."</div>";
+		echo "<div class='clr'>
+						<div class='top10header toggle' style='width:100%'>Data Table SQL</div>
+						<div class='toggled' style='font-size:1em'>".htmlspecialchars($querytable)."
+							<div class='clr'>&nbsp;</div>
+					</div></div>";
 	}
 
 	?>

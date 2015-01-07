@@ -30,7 +30,7 @@ if(isset($_GET['hours']) && preg_match("/^[0-9]+$/", $_GET['hours'])){
 	$inputhours=$_GET['hours'];
 }else{
 	$inputhours=$glb_hours;
-} 
+}
 
 ## filter category
 if(isset($_GET['category']) && preg_match("/^[0-9]+$/", $_GET['category'])){
@@ -141,7 +141,7 @@ include "page_refresh.php";
 		categoryAxis.gridAlpha = 0;
 		categoryAxis.axisAlpha = 0;
 		categoryAxis.gridPosition = "start";
-		categoryAxis.position = "top";		
+		categoryAxis.position = "top";
 		categoryAxis.parseDates = true;
 		categoryAxis.minPeriod = "mm";
 
@@ -171,7 +171,7 @@ include "page_refresh.php";
 		chartScrollbar.autoGridCount = true;
 		chart.addChartScrollbar(chartScrollbar);
 
-		
+
 		<?php
 		if($glb_indexgraphbubbletext==1){
 		echo "
@@ -182,7 +182,7 @@ include "page_refresh.php";
 		chart.addChartCursor(chartCursor);
 		";
 		}
-		?>	
+		?>
 
 		// changes cursor mode from pan to select
 		function setPanSelect() {
@@ -193,12 +193,12 @@ include "page_refresh.php";
 				chartCursor.pan = true;
 			}
 			chart.validateNow();
-		}  
+		}
 
 
 
 		<?php
-		echo $graphlines; 
+		echo $graphlines;
 		echo $workinghoursguide
 		?>
 
@@ -213,7 +213,7 @@ include "page_refresh.php";
 		?>
 
 
-		
+
 		<?php
 		echo $graphheight;
 		?>
@@ -222,38 +222,28 @@ include "page_refresh.php";
 
 	});
 </script>
-	
+
 
 </head>
 <body onload="databasetest();">
 
 <?php include './header.php'; ?>
-		
-<div class='clr'></div>	
+<div class='clr'></div>
 
-<div id="chartdiv" style="width:100%; height:500px;"><?php echo $nochartdata; ?></div>
-	
-<div class='top10header'>Filters</div>
-
-<div>
+<div id=filters>
+	<div class='top10header toggle' style='width:100%;'>Filters</div>
+	<div class='newboxes toggled' style='display: block;'>
 	<form method='GET' action='./index.php'>
+		<div class='fleft filters'>
+			Hours<br/>
+			<input type='text' size='6' name='hours' value='<?php echo $inputhours; ?>' />
+		</div>
 		<div class='fleft filters'>
 			Level<br/>
 			<select name='level'>
 				<option value=''>--</option>
 				<?php echo $filterlevel; ?>
 			</select>
-		</div>
-		<div class='fleft filters'>
-			Hours<br/>
-			<input type='text' size='6' name='hours' value='<?php echo $inputhours; ?>' />
-		</div>
-		<div class='fleft filters'>
-			Graph Breakdown<br/>
-			<input type='radio' name='field' value='source' <?php echo $radiosource; ?> />Source
-			<input type='radio' name='field' value='path' <?php echo $radiopath; ?> />Path
-			<input type='radio' name='field' value='level' <?php echo $radiolevel; ?> />Level
-			<input type='radio' name='field' value='rule_id' <?php echo $radiorule_id; ?> />Rule ID
 		</div>
 		<div class='fleft filters'>
 			Category<br/>
@@ -263,33 +253,36 @@ include "page_refresh.php";
 			</select>
 		</div>
 		<div class='fleft filters'>
+			Graph Breakdown<br/>
+			<input type='radio' name='field' value='source' <?php echo $radiosource; ?> />Source
+			<input type='radio' name='field' value='path' <?php echo $radiopath; ?> />Path
+			<input type='radio' name='field' value='level' <?php echo $radiolevel; ?> />Level
+			<input type='radio' name='field' value='rule_id' <?php echo $radiorule_id; ?> />Rule ID
+		</div>
+		<div class='fleft filters'>
 			<br/>
-			<input type='submit' value='..go..' />
+			<input type='submit' value='Go' />
 		</div>
 	</form>
-</div>
-
-<div class='clr' style='margin:10px;'>&nbsp;</div>
-
-<div id="top10s" class="top10s">
-	<div class='fleft maincol'>
-		<?php include './php/topid.php'; ?>
-
-	</div>
-	<div class='fleft maincol'>
-		<?php include './php/toplocation.php'; ?>
-
-	</div>
-	<div class='fleft maincol'>
-		<?php include './php/toprare.php'; ?>
-
+	<div class='clr'>&nbsp;</div>
 	</div>
 </div>
 
+<div id=chart>
+	<div class='top10header toggle' style="width:100%;"><b>Results</b></div>
+	<div class='newboxes toggled' style='display: block;'>
+		<div id="chartdiv" style="width:100%; height:500px;"><?php echo $nochartdata; ?></div>
+	</div>
+</div>
 <div class='clr'></div>
 
-<?php
-?>
+<table id="top10s" class="top10sTables"><tr><td class=top10sTd>
+	<?php include './php/topid.php'; ?>
+</td><td class=top10sTd>
+	<?php include './php/toplocation.php'; ?>
+</td><td class=top10sTd>
+	<?php include './php/toprare.php'; ?>
+</td></tr></table>
 
 <?php
 include './footer.php';

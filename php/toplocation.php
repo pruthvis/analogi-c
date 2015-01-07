@@ -30,13 +30,14 @@ $query="SELECT count(alert.id) as res_cnt, SUBSTRING_INDEX(SUBSTRING_INDEX(locat
 	AND alert.timestamp>'".(time()-($inputhours*60*60))."'
 	".$wherecategory."
 	".$glb_notrepresentedwhitelist_sql."
-	GROUP BY res_name 
-	ORDER BY res_cnt DESC 
+	GROUP BY res_name
+	ORDER BY res_cnt DESC
 	LIMIT ".$glb_indexsubtablelimit;
 
 echo "<div class='top10header' >
-	<a href='#' class='tooltip'><img src='./images/help.png' /><span>Busiest locations in given time frame.</span></a>
-	Top Loc, <span class='tw'>".$inputhours."</span> Hrs (Lvl <span class='tw'>".$inputlevel."</span>+)</div>";
+	Top Hosts - <span class='tw'>".$inputhours."</span> Hrs, Lvl <span class='tw'>".$inputlevel."</span>+
+	<a href='#' class='tooltip'><img src='./images/help.png' /><span>Busiest hosts in given time frame.</span></a>
+	</div>";
 
 $mainstring="";
 $detailshours="";
@@ -62,11 +63,16 @@ if(!$result=mysql_query($query, $db_ossec)){
 
 
 	while($row = @mysql_fetch_assoc($result)){
+/*  //changed:
 		$mainstring.="<div class='fleft top10data' style='width:60px'>".number_format($row['res_cnt'])."</div>
 				<div class='fleft top10data'><a class='top10data' href='./detail.php?source=".$row['res_name']."&level=".$inputlevel."&from=".$from.$detailshours."&breakdown=rule_id'>".htmlspecialchars(preg_replace($glb_hostnamereplace, "", $row['res_name']))."</a></div>
 				<div class='clr'></div>";
+*/
+		$mainstring .= "<tr><td class=top10dataCol1 style='width:4em'>".number_format($row['res_cnt'])."</td><td class=top10dataCol2>
+			<a href='./detail.php?source=".$row['res_name']."&level=".$inputlevel."&from=".$from.$detailshours."&breakdown=rule_id'>".htmlspecialchars(preg_replace($glb_hostnamereplace, "", $row['res_name']))."</a></td></tr>";
 	}
-
+	if($mainstring !== "")
+		$mainstring = "<table id=tbTopHosts class=top10Table>".$mainstring."</table>";
 }
 
 if($mainstring==""){
