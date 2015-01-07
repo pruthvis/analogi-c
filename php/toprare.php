@@ -39,14 +39,14 @@ while($row = @mysql_fetch_assoc($result)){
 
 	$ruleid=$row['rule_id'];
 
-	$querylast="select max(alert.timestamp) as time, signature.description as descr, alert.rule_id
+	$querylast="select max(alert.timestamp) as time, signature.description as descr
 		from alert, signature
 		where alert.rule_id=".$ruleid."
 		and alert.rule_id=signature.rule_id
 		and alert.timestamp<".(time()-($inputhours*3600));
 	$resultlast=mysql_query($querylast, $db_ossec);
 	$rowlast = @mysql_fetch_assoc($resultlast);
-	$lastrare[$ruleid]=$rowlast['time']."|| [{$rowlast['rule_id']}] {$rowlast['descr']}";
+	$lastrare[$ruleid]=$rowlast['time']."|| [$ruleid] {$rowlast['descr']}";
 }
 
 

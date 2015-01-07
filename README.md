@@ -1,4 +1,4 @@
-open README.txt to get the properly formatted text.
+open README.txt to view the properly formatted text.
 
 
 AnaLogi-c 0.1
