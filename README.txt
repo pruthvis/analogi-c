@@ -52,9 +52,9 @@ time check out the settings:
 $ vim analogi-c/config.php
 
 
-Commit 0.1
+1. Commit 1
 ===
-This commit is modified to fix issues arising from the use of PHP's "E_STRICT"
+This commit fixes issues arising from the use of PHP's "E_STRICT"
 error reporting. When I initially ran Analogi 1.3, PHP threw a few "Undefined
 variable" errors.  It appears to be the result of having PHP's E_STRICT
 error reporting turned on.
@@ -67,6 +67,14 @@ example of an update from management.php:
 
 User interface and functionality is unchanged from original Analogi 1.3. However,
 there may be some functionality I can't see because its just broken.
+
+
+2. Branch UIUpdates
+===
+- contains prior PHP fixes
+- HTML, CSS tweaks
+- made wording more consistent
+- added rule_id to a few lists
 
 
 Thanks/Links
@@ -83,3 +91,5 @@ http://www.ossec.net/
 PHP Error Reporting
 http://php.net/manual/en/migrating5.errorrep.php
 
+Chris DeFreitas
+http://datadevco.com
