@@ -78,7 +78,7 @@ there may be some functionality I can't see because its just broken.
 - HTML, CSS tweaks
 - made wording more consistent
 - added rule_id to a few lists
-
+- screenshot: https://github.com/ChrisDeFreitas/analogi-c/tree/uiupdates/screenshots/index.png
 
 Thanks/Links
 ===
