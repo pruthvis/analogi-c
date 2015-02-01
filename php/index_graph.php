@@ -17,13 +17,13 @@ $notrepresented=array();
 # counting in hours/days may get slow on larger databases, so grouping is done in blocks of 10^x seconds
 if($inputhours<4){
 	$substrsize=8;
-	$zeros="00";	
+	$zeros="00";
 }elseif($inputhours<48){
 	$substrsize=7;
-	$zeros="000";	
+	$zeros="000";
 }else{
 	$substrsize=6;
-	$zeros="0000";	
+	$zeros="0000";
 }
 
 # to make the graph plot position in the middle of the time field..
@@ -52,7 +52,7 @@ if((isset($_GET['field']) && $_GET['field']=='path') || (!isset($_GET['field']) 
 		and alert.rule_id=signature.rule_id
 		".$wherecategory_and."
 		and alert.timestamp>".(time()-($inputhours*3600))."
-		".$wherecategory." 
+		".$wherecategory."
 		".$glb_notrepresentedwhitelist_sql."
 		group by substring(alert.timestamp, 1, $substrsize), SUBSTRING_INDEX(location.name, '->', -1)
 		order by substring(alert.timestamp, 1, $substrsize), SUBSTRING_INDEX(location.name, '->', -1)";
@@ -67,7 +67,7 @@ if((isset($_GET['field']) && $_GET['field']=='path') || (!isset($_GET['field']) 
 		and alert.rule_id=signature.rule_id
 		".$wherecategory_and."
 		and alert.timestamp>".(time()-($inputhours*3600))."
-		".$wherecategory." 
+		".$wherecategory."
 		".$glb_notrepresentedwhitelist_sql."
 		group by substring(alert.timestamp, 1, $substrsize), signature.level
 		order by substring(alert.timestamp, 1, $substrsize), signature.level";
@@ -82,7 +82,7 @@ if((isset($_GET['field']) && $_GET['field']=='path') || (!isset($_GET['field']) 
 		and alert.rule_id=signature.rule_id
 		".$wherecategory_and."
 		and alert.timestamp>".(time()-($inputhours*3600))."
-		".$wherecategory." 
+		".$wherecategory."
 		".$glb_notrepresentedwhitelist_sql."
 		group by substring(alert.timestamp, 1, $substrsize), alert.rule_id
 		order by substring(alert.timestamp, 1, $substrsize), alert.rule_id";
@@ -99,7 +99,7 @@ if((isset($_GET['field']) && $_GET['field']=='path') || (!isset($_GET['field']) 
 		and alert.rule_id=signature.rule_id
 		".$wherecategory_and."
 		and alert.timestamp>".(time()-($inputhours*3600))."
-		".$wherecategory." 
+		".$wherecategory."
 		".$glb_notrepresentedwhitelist_sql."
 		group by substring(alert.timestamp, 1, $substrsize), SUBSTRING_INDEX(location.name, ' ', 1)
 		order by substring(alert.timestamp, 1, $substrsize), SUBSTRING_INDEX(location.name, ' ', 1)";
@@ -147,7 +147,7 @@ while($rowchart = @mysql_fetch_assoc($resultchart)){
 	if($tmpdate!=$rowchart['res_time'] && $rowchart['res_time']>1){
 		# ...so what we have compiled needs to go to 'mainstring' (remember to use tmpdate, not the latest row time)
 	        $mainstring.= "		{date: new Date(".date("Y", $tmpdate).", ".(date("m", $tmpdate)-1).", ".date("j", $tmpdate).", ".date("G", $tmpdate).", ".date("i", $tmpdate)."), ";
-		
+
 		foreach($timegrouping as $key=>$val){
 			#append this location to array
 			$mainstring.="'".$key."': ".$val.", ";
@@ -159,11 +159,11 @@ while($rowchart = @mysql_fetch_assoc($resultchart)){
 
 		# clear the array we have used to collect counts for a specific time 'group'
 		unset($timegrouping);
-		
+
 		# reset the working time 'group' so the next if will be fired and we start collecting for the next time 'group'
 		$tmpdate=$rowchart['res_time'];
 	}
-	
+
 	# Oh look, this alert matches the time 'group' we are collecting for.
 	if($rowchart['res_time']==$tmpdate){
 		$timegrouping[$fieldname]=$rowchart['res_cnt'];
@@ -181,7 +181,7 @@ if($tmpdate>1){
 		#append this location to array
 		$mainstring.="'".$key."': ".$val.",";
 	}
-	
+
 	# the last date point on the graph becomes the last data, so if no data the graph effectively stalls. Adding an empty entry at the end will keep the graph up to date.
 	$timedown=time();
 	$mainstring.="},
@@ -203,8 +203,13 @@ if($tmpdate>1){
 
 # dump what we have collected
 $mainstring=substr($mainstring, 0, -3);
-$mainstring.="
-		];";
+//indexphp: when no data returned from query, $mainstring = 'var chartData = ]'
+if($mainstring == 'var chartData = ')
+	$mainstring = 'var chartData = [];';
+else
+	$mainstring.="
+			];";
+
 
 
 $nochartdata="";
@@ -297,7 +302,7 @@ function checktable($table){
 		return 1;
 	}else{
 		return 0;
-	}	
+	}
 }
 
 
@@ -308,28 +313,32 @@ asort($arraylocationsunique);
 ## Right now define each series of data with a name and settings
 $graphcount=0;
 $graphlines="";
+
 if($datafound==1){
 	foreach ($arraylocationsunique as $i => $location){
-	
+
+		$linecolour="";		//fixed: undefined variable: linecolour
 		if(isset($_GET['field']) && $_GET['field']=='level'){
 			# Get a colour based on the level
 			$linecolour="graph".$i.".lineColor = \"".$levelcolours["level".$location]."\";";
 		}elseif(isset($_GET['field']) && $_GET['field']=='source'){
-			if(isset($groupcolour[$devicegroup[$location]])){
+			//fixed: undefined key in $devicegroup[$location]
+			//if(isset($groupcolour[$devicegroup[$location]])){
+			if(array_key_exists($location, $devicegroup) && isset($groupcolour[$devicegroup[$location]])){
 				if($groupcolour[$devicegroup[$location]]<>''){
 					# Get a colour for specific servers
 					$linecolour="graph".$i.".lineColor = \"".$groupcolour[$devicegroup[$location]]."\";";
 				}else{
 					# Get a colour for a server where you didn't specify one
 					$linecolour="graph".$i.".lineColor = \"".$randomcolour[array_rand($randomcolour)]."\";";
-		
+
 				}
 			}
 		}else{
 			# Dont specify, let amcharts choose
-			$linecolour="";	
+			$linecolour="";
 		}
-	
+
 		$graphcount++;
 		$graphlines.='
 			// GRAPHS
@@ -357,12 +366,12 @@ if($glb_indexgraphkey==1){
 $workinghoursguide="";
 $daysago=ceil($inputhours/24);
 for($i=$daysago; $i>=0 ; $i--){
-	$guidedate=date("j", strtotime('-'.$i.' days'));	
-	$guidemonth=date("n", strtotime('-'.$i.' days'))-1;	
+	$guidedate=date("j", strtotime('-'.$i.' days'));
+	$guidemonth=date("n", strtotime('-'.$i.' days'))-1;
 
 
 	if(date('N', strtotime('-'.$i.' days')) == 6 || date('N', strtotime('-'.$i.' days')) == 7){
-		# If in here, then the day value (1-7) of $i days ago was a Sat or a Sun			
+		# If in here, then the day value (1-7) of $i days ago was a Sat or a Sun
 		$workinghoursguide.= "
 		// GUIDE - Weekend
 		var guide".$i." = new AmCharts.Guide();
@@ -391,7 +400,7 @@ for($i=$daysago; $i>=0 ; $i--){
 		guide".$i."am.lineAlpha = 0;
 		categoryAxis.addGuide(guide".$i."am);
 		// day value = ".date('N', strtotime('-'.$i.' days'))." pm
-		var guide".$i."pm = new AmCharts.Guide(); 
+		var guide".$i."pm = new AmCharts.Guide();
 		guide".$i."pm.date = new Date(2012, ".$guidemonth.", ".$guidedate.", ".$glb_outofhours_dayend.", 0);
 		guide".$i."pm.toDate = new Date(2012, ".$guidemonth.", ".$guidedate.", 23, 59);
 		guide".$i."pm.fillColor = '".$glb_outofhourscolour."';
@@ -402,7 +411,7 @@ for($i=$daysago; $i>=0 ; $i--){
 		guide".$i."pm.labelRotation = 90;
 		categoryAxis.addGuide(guide".$i."pm);
 		";
-			
+
 	}
 }
 

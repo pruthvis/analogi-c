@@ -1,4 +1,4 @@
-<div class="fleft top10header" style='border-bottom: 1px silver solid;margin:0 0 5px 0;width:100%'>
+<div class="fleft top10header" style='border-bottom: 1px silver solid;margin:0 0 5px 0;width:100%;'>
 	<div style='font-size:1.5em;' title='A&#183;nal&#183;o&#183;gi [uh-nal-uh-jee] Noun. A similarity between like features of two things, on which a comparison may be based.'>
 		<span style='color:rgb(0,84,130)'>Ana</span><span style='color:rgb(237,28,36); font-style:italic;font-weight: bold'>Log</span><span style='color:rgb(0,84,130);'>i</span>
 		<!--div class='tiny' style=''>
@@ -28,16 +28,18 @@
 				</form>";
 			}
 		?>
-		<a class='tiny tinyblack' href='./index.php?'>Index</a> &nbsp;
-		<a class='tiny tinyblack' href='./newsfeed.php?'>NewsFeed</a> &nbsp;
-		<a class='tiny tinyblack' href='./massmonitoring.php?'>Mass Monitoring</a> &nbsp;
-		<a class='tiny tinyblack' href='./detail.php?from=<?php echo date("Hi dmy", (time()-(3600*24*30))) ?>'>Detail</a> &nbsp;
-		<a class='tiny tinyblack' href='./ip_info.php?'>IP Info</a>  &nbsp;
-		<a class='tiny tinyblack' onclick='alert("Warning : Due to the complexity of the code, this page may take a few minute to load."); window.location="./management.php"' href='#' >Management</a> &nbsp;
-		<a class='tiny tinyblack' href='./about.php'>About</a>  &nbsp;
+		<a class='tinyblack' href='./index.php?'>Home</a> &nbsp;
+		<a class='tinyblack' href='./newsfeed.php?'>NewsFeed</a> &nbsp;
+		<a class='tinyblack' href='./massmonitoring.php?'>Monitor</a> &nbsp;
+		<a class='tinyblack' href='./detail.php?from=<?php echo date("Hi dmy", (time()-(3600*24*30))) ?>'>Search</a> &nbsp;
+		<a class='tinyblack' href='./ip_info.php?'>IP Search</a> &nbsp;
+		<a class='tinyblack' onclick='alert("Warning : Due to the complexity of the code, this page may take a few minute to load."); window.location="./management.php"' href='#' >Management</a> &nbsp;
+		<a class='tinyblack' href='./about.php'>About</a> &nbsp;
+		<a class='tinyblack' href='/wui/'>WUI</a> &nbsp;
+		<a class='tinyblack' href='/git/analogi-c/uiupdates'>analogi-c</a> &nbsp;
 		<?php
-			if(isset($wallboard_url))	//fixed: [by if] undefined var $wallboard_url
-				echo $wallboard_url;
+		if(isset($wallboard_url))	//fixed: undefined var $wallboard_url
+			echo $wallboard_url;
 		?>
 	</div>
 </div>

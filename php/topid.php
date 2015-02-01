@@ -3,6 +3,7 @@
  * Copyright (c) 2012 Andy 'Rimmer' Shepherd <andrew.shepherd@ecsc.co.uk> (ECSC Ltd).
  * This program is free software; Distributed under the terms of the GNU GPL v3.
  */
+global $apputils;
 
 if($glb_debug==1){
 	$starttime_topidchart = microtime();
@@ -32,9 +33,8 @@ $query="SELECT count(alert.id) as res_cnt, alert.rule_id as res_id, signature.de
 	ORDER BY count(alert.id) DESC
 	LIMIT ".$glb_indexsubtablelimit;
 
-echo "<div class='top10header'>
-	Top Rules - <span class='tw'>".$inputhours."</span> Hrs Lvl <span class='tw'>".($inputlevel)."</span>+
-	<a href='#' class='tooltip'><img src='./images/help.png' /><span>Busiest rules in given time frame.</span></a>
+echo "<div class='top10header' title='Busiest rules in given time frame.'>
+	Top Rules - <span class='tw'>".$inputhours."</span> Hrs, Lvl <span class='tw'>".($inputlevel)."</span>+
 	</div>";
 
 $mainstring="";
@@ -57,27 +57,21 @@ if(!$result=mysql_query($query, $db_ossec)){
 	$from=date("Hi dmy", (time()-($inputhours*3600)));
 
 	while($row = @mysql_fetch_assoc($result)){
-/*	//changed:
-		$mainstring.="<div class='fleft top10data' style='width:60px'>".number_format($row['res_cnt'])."</div>
-				<div class='fleft top10data'><a class='top10data tooltip_small' href='./detail.php?rule_id=".$row['res_rule']."&from=".$from."&breakdown=source'>".htmlspecialchars(substr($row['res_desc'], 0, 28))."...<span>".htmlspecialchars($row['res_desc'])."</span></a></div>";
-		$mainstring.="			<div class='clr'></div>";
-*/
 		$stmp = htmlspecialchars( "[{$row['res_rule']}]  {$row['res_desc']}" );
 		//$stmp = $apputils->strTrunc($stmp, 80);
 		$mainstring.="<tr><td class=top10dataCol1>".number_format($row['res_cnt'])."</td><td class=top10dataCol2>
 				<a href='./detail.php?rule_id=".$row['res_rule']."&from=".$from."&breakdown=source'>"
 				.$stmp."</a></td></tr>";
 	}
-	if($mainstring !== "")
+	if($mainstring != "")
 		$mainstring = "<table id=tbTopRules class=top10Table>".$mainstring."</table>";
-
 }
 
-if($mainstring==""){
+if($mainstring=="")
 	echo $glb_nodatastring;
-}else{
+else
 	echo $mainstring;
-}
+
 
 
 

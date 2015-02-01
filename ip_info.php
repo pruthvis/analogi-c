@@ -18,7 +18,7 @@ $url="http://freegeoip.net/json/".$ip;
 $content=get_content($url);
 $jsoned = json_decode($content);
 //fixed: Notice: Trying to get property of non-object in /srv/website/htdocs/git/analogi-c/ip_info.php on line 20
-if(!isset($jsoned)) {
+if(! isset($jsoned)) {
 	$jsonlng="0";
 	$jsonlat="0";
 } else {
@@ -37,7 +37,7 @@ if(!isset($jsoned)) {
 # Get AS and CIDR
 $url="http://www.dshield.org/api/ip/".$ip;
 $content=get_content($url);
-$xml = simplexml_load_string($content); 
+$xml = simplexml_load_string($content);
 $ip_isp = $xml->asname;
 $ip_range = $xml->network;
 $ip_attacks = $xml->attacks;
@@ -52,7 +52,7 @@ $query="SELECT alert.timestamp as first
 $result=mysql_query($query, $db_ossec);
 $row = @mysql_fetch_assoc($result);
 $firstinstance = $row['first'];
-	
+
 
 
 # Seen at
@@ -61,9 +61,9 @@ $query="SELECT distinct(substring_index(substring_index(location.name, ' ', 1), 
 	LEFT JOIN location ON alert.location_id = location.id
 	WHERE alert.id IN (select data.id from data where full_log like '%".$ip."%');";
 if($glb_debug==1){
-	$seenat="<div style='font-size:24px; color:red;font-family: Helvetica,Arial,sans-serif;'>Debug</div>"; 
+	$seenat="<div style='font-size:24px; color:red;font-family: Helvetica,Arial,sans-serif;'>Debug</div>";
 	$seenat.=$query;
-	
+
 }else{
 	$result=mysql_query($query, $db_ossec);
 	$seenat="";
@@ -116,7 +116,6 @@ include "page_refresh.php";
 -->
 <body>
 
-
 <?php include './header.php'; ?>
 <div class='clr'></div>
 
@@ -145,7 +144,7 @@ include "page_refresh.php";
 	<div class='wide fleft'>Network Range</div>
 	<div class='fleft'><?php echo $ip_range ?></div>
 	<div class='clr gap'></div>
-	
+
 	<div class='wide fleft'><a href='http://www.dshield.org/ipinfo.html?ip=<?php echo $ip; ?>'>dshield</a> have counted</div>
 	<div class='fleft'><?php echo $ip_attacks ?> attacks from this IP</div>
 	<div class='clr gap'></div>
@@ -155,9 +154,9 @@ include "page_refresh.php";
 	<div class='clr gap'></div>
 
 	<div class='wide fleft'>Country</div>
-	<div class='fleft'><?php 
-		//fixed: Notice: Trying to get property of non-object in /srv/website/htdocs/analogi/ip_info.php on line 157 
-		echo (isset($jsoned) ? $jsoned->{'country_name'} : '') 
+	<div class='fleft'><?php
+		//fixed: Notice: Trying to get property of non-object in /srv/website/htdocs/analogi/ip_info.php on line 157
+		echo (isset($jsoned) ? $jsoned->{'country_name'} : '')
 	?></div>
 	<div class='clr gap'></div>
 

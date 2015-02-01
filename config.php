@@ -34,7 +34,7 @@ $glb_nodatastring="No data found matching this query.";
 # Management top # rules
 # How many rules to show on management for Rule Tweaking
 # implemeneted = yes
-$glb_managementtweaking=30;  
+$glb_managementtweaking=30;
 
 # Debug
 # implemented = where I've had problems, so in most places
@@ -62,7 +62,7 @@ $glb_autorefresh=600;
 # Default level
 # Default alert level for the main graph
 # implemented = yes
-$glb_level=7;
+$glb_level=5;
 
 # Default hours
 # Defult hours count for the main graph
@@ -104,15 +104,16 @@ $glb_outofhours_dayend=18;
 
 ### Breakdown page / detail.php
 
-# Detail.php table limit 
-# Max size of the table in detail.php 
+# Detail.php table limit
+# Max size of the table in detail.php
 # implemented=yes
 $glb_detailtablelimit=500;
 
 # Debug SQL on detail.php
 # Useful if you want to drill down in SQL more, or for debugging
 # implemented = yes
-$glb_detailsql=0;
+//$glb_detailsql=0;
+$glb_detailsql=1;
 
 # Detail timestamp format
 # The format of the timestamp column on the detail page, useful if you copy/paste to spreadsheet/csv
@@ -124,9 +125,9 @@ $glb_detailtimestamp="Y/m/d g:i:s";
 
 # Highlighted words
 # This is merely meant to highlight keywords in the breakdown page, it is not mean to replace you actually creating rules!
-# cheekily taken from $BAD_WORDS 
+# cheekily taken from $BAD_WORDS
 # implemented = yes
-$glb_autohighlight="root|admin|core_dumped|failure|error|attack|bad |illegal |denied|refused|unauthorized|fatal|failed|Segmentation Fault|Corrupted";
+$glb_autohighlight="Error Code|AUDIT_SUCCESS|ERROR|root|admin|core_dumped|failure|error|attack|bad |illegal |denied|refused|unauthorized|fatal|failed|Segmentation Fault|Corrupted";
 
 # Common Pattern Count
 # The amount of common patterns listed
@@ -181,7 +182,7 @@ $glb_trendweeks=5;
 $glb_trendlevel=4;
 
 # IPs Trending
-# Top 'x' IPs 
+# Top 'x' IPs
 # implemented = yes
 $glb_trendip_top=15;
 
@@ -190,31 +191,36 @@ $glb_trendip_top=15;
 # supports single ip (1.2.3.4) or CIDR (1.2.3.0/24)
 # implemented = yes
 $glb_trendip_ignore=array(
-	"192.168.0.0/16",
+/*	"192.168.0.0/16",
 	"172.16.0.0/12",
 	"10.0.0.0/8",
 	"172.10.0.0/16",
 	"173.10.0.0/16",
 	"6.0.0.0/8"
-	);
+*/);
 
 ### Mass Monitoring
 
 # Mass Monitoring Time period (all graphs)
 # Num of days to cover
 # implemented = yes
-$glb_mass_days=6;
+#$glb_mass_days=6;
+$glb_mass_days=7;
 
 # Group Ignore
 # 'groups' not to report on the Group Activity Over Time report, that graph can get VERY overcrowded
 # implemented = yes
-$glb_mass_groupignore=array("apache","authentication_success","overwrites","fts", "generic", "multiple_spam", "smbd", "spam", "sudo", "syslog", "syscheck","web");
+$glb_mass_groupignore=array(
+/*"apache","authentication_success","overwrites","fts",
+"generic", "multiple_spam", "smbd", "spam", "sudo",
+"syslog", "syscheck","web"*/
+);
 
 # Hostname Grouping Substring
 # For environments with naming conventions, this can shows alerts per group
 # Example -  group alerts per switches '-sw-' printers 'pr-' and servers  '-srv'
 # Example $glb_mass_hostsubstr=array("-sw-","pr-","-srv");
-# regex comptable 
+# regex comptable
 # "exch-svr" will be counted in BOTH 'exch' and 'svr'
 # implemented = yes (but buggy, amcharts doesn't like - so results are close, but not perfect)
 $glb_mass_hostsubstr=array("sw-","pr-","-svr", "-srv", "dc[0-9]", "sql", "esx", "exch", "ts[0-9]", "ids", "sensor", "-fw", "mail");
@@ -238,6 +244,7 @@ $glb_management_clientvslevel=1;
 # List of databases
 # implemented = yes
 # 'Main' is the default database used if there are any problems, make this your standard database
+$glb_ossecdb = [];
 $glb_ossecdb['Main']="db_ossec.php";
 #$glb_ossecdb['Secondary']="db_ossec2.php";
 

@@ -3,6 +3,7 @@
  * Copyright (c) 2012 Andy 'Rimmer' Shepherd <andrew.shepherd@ecsc.co.uk> (ECSC Ltd).
  * This program is free software; Distributed under the terms of the GNU GPL v3.
  */
+global $apputils;
 
 if($glb_debug==1){
 	$starttime_toplocchart = microtime();
@@ -34,9 +35,8 @@ $query="SELECT count(alert.id) as res_cnt, SUBSTRING_INDEX(SUBSTRING_INDEX(locat
 	ORDER BY res_cnt DESC
 	LIMIT ".$glb_indexsubtablelimit;
 
-echo "<div class='top10header' >
+echo "<div class='top10header' title='Busiest Hosts in given time frame.'>
 	Top Hosts - <span class='tw'>".$inputhours."</span> Hrs, Lvl <span class='tw'>".$inputlevel."</span>+
-	<a href='#' class='tooltip'><img src='./images/help.png' /><span>Busiest hosts in given time frame.</span></a>
 	</div>";
 
 $mainstring="";
@@ -61,15 +61,9 @@ if(!$result=mysql_query($query, $db_ossec)){
 		$detailshours="&level=".$inputlevel;
 	}
 
-
 	while($row = @mysql_fetch_assoc($result)){
-/*  //changed:
-		$mainstring.="<div class='fleft top10data' style='width:60px'>".number_format($row['res_cnt'])."</div>
-				<div class='fleft top10data'><a class='top10data' href='./detail.php?source=".$row['res_name']."&level=".$inputlevel."&from=".$from.$detailshours."&breakdown=rule_id'>".htmlspecialchars(preg_replace($glb_hostnamereplace, "", $row['res_name']))."</a></div>
-				<div class='clr'></div>";
-*/
 		$mainstring .= "<tr><td class=top10dataCol1 style='width:4em'>".number_format($row['res_cnt'])."</td><td class=top10dataCol2>
-			<a href='./detail.php?source=".$row['res_name']."&level=".$inputlevel."&from=".$from.$detailshours."&breakdown=rule_id'>".htmlspecialchars(preg_replace($glb_hostnamereplace, "", $row['res_name']))."</a></td></tr>";
+				<a href='./detail.php?source=".$row['res_name']."&level=".$inputlevel."&from=".$from.$detailshours."&breakdown=rule_id'>".htmlspecialchars(preg_replace($glb_hostnamereplace, "", $row['res_name']))."</a></td></tr>";
 	}
 	if($mainstring !== "")
 		$mainstring = "<table id=tbTopHosts class=top10Table>".$mainstring."</table>";

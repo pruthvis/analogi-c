@@ -3,6 +3,7 @@
  * Copyright (c) 2012 Andy 'Rimmer' Shepherd <andrew.shepherd@ecsc.co.uk> (ECSC Ltd).
  * This program is free software; Distributed under the terms of the GNU GPL v3.
  */
+global $apputils;
 
 if($glb_debug==1){
 	$starttime_toprarechart = microtime();
@@ -14,9 +15,8 @@ if($glb_debug==1){
 # This will not be pretty.  A SQL command was made that worked, but due to indexing design flaws with the OSSEC MYSQL schema the command took 10 minutes to run on a relatively new/empty database.
 # A better version of this interface is planned that will redesign the databse and made this nicer.
 
-echo "<div class='top10header'>
-	Rare Rules - <span class='tw'>".$inputhours."</span> Hrs, Lvl <span class='tw'>".$inputlevel."</span>+
-	<a href='#' class='tooltip'><img src='./images/help.png' /><span>Alerts in this period, and the last time they were seen (oldest and rarest at the top)</span></a>
+echo "<div class='top10header' title='Alerts in this period, and the last time they were seen (oldest and rarest at the top)'>
+	Rarely seen in <span class='tw'>".$inputhours."</span> Hrs, Lvl <span class='tw'>".$inputlevel."</span>+
 	</div>";
 
 $query="select distinct(alert.rule_id)
@@ -47,6 +47,7 @@ while($row = @mysql_fetch_assoc($result)){
 	$resultlast=mysql_query($querylast, $db_ossec);
 	$rowlast = @mysql_fetch_assoc($resultlast);
 	$lastrare[$ruleid]=$rowlast['time']."|| [$ruleid] {$rowlast['descr']}";
+	//$lastrare[$ruleid]=$rowlast['time']."||".$rowlast['descr'];
 }
 
 
@@ -76,11 +77,6 @@ if($glb_debug==1){
 				$displaydate=date("dS M H:i", $display[0]);
 			}
 
-/* //changed:
-			$mainstring.="<div class='fleft top10data' style='width:95px;'>".$displaydate."</div>
-					<div class='fright top10data' style='text-align:right; width:*' ><a class='top10data' href='./detail.php?rule_id=".$key."&breakdown=source'>".htmlspecialchars(substr($display[1], 0, 40))."...</a></div>
-					<div class='clr'></div>";
-*/
 			$stmp = htmlspecialchars( $display[1] );
 			//$stmp = $apputils->strTrunc($stmp, 80);
 			$mainstring.="<tr><td class=top10dataCol1 style='width:7em'>".$displaydate."</td><td class=top10dataCol2>

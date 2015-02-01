@@ -96,6 +96,7 @@ while($row = @mysql_fetch_assoc($result)){
 	$filtersource.="<option value='".$row['dname']."'".$selected.">".$row['dname']."</option>";
 }
 
+
 ## filter criteria 'path'
 if(isset($_GET['path']) && strlen($_GET['path'])>0){
 	$inputpath=quote_smart($_GET['path']);
@@ -398,7 +399,7 @@ include "page_refresh.php";
 
 <!-- Filters dialog -->
 <div id='filters'>
-	<div class='top10header toggle' title='Click to show/hide Filter controls.' style='width:100%'>Filters</div>
+	<div class='top10header toggle' title='Click to show/hide Filter controls.' style='width:100%'>Filter</div>
 	<div class='newboxes toggled' style='display: block;'>
 		<form method='GET' action='./detail.php'>
 
@@ -538,7 +539,7 @@ include "page_refresh.php";
 	$resulttable=mysql_query($querytable, $db_ossec);
 
 	$mainstring.= "<div class='newboxes toggled'>
-	<table class='dump sortable' id='sortabletable' style='width:100%'><tr>
+	<table class='dump sortable' id='sortabletable'  style='width:100%' ><tr>
 	<th style='width:3em'>ID</th>
 	<th style='width:5em'>Rule#</th>
 	<th style='width:5em'>Level</th>
