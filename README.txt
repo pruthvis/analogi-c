@@ -107,7 +107,7 @@ Changes:
 - added new file: js/app_utils.js
 - data tables are generated via Javascript
 - added to data tables: level column; sorting; sql popup window
-- screenshot: https://github.com/ChrisDeFreitas/analogi-c/tree/uiupdates/screenshots/indexphp.png
+- screenshot: https://github.com/ChrisDeFreitas/analogi-c/tree/uiupdates/screenshots/indexphp_2.png
 
 
 Thanks/Links
