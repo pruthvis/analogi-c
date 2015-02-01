@@ -1,3 +1,6 @@
+open https://github.com/ChrisDeFreitas/analogi-c/tree/indexphp/README.txt to view the properly formatted text.
+
+
 AnaLogi-c 0.1
 Web interface for OSSEC based on AnaLogi v1.3
 ===
