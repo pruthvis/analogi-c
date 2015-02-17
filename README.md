@@ -1,21 +1,31 @@
-see REAME.txt for the correctly formatted version of this document.
-
+To view the properly formatted text:
+  https://github.com/ChrisDeFreitas/analogi-c/tree/indexphp/README.txt
 
 AnaLogi-c 0.1
 Web interface for OSSEC based on AnaLogi v1.3
 ===
-The goal of this fork of Analogi is to make available to the the community
-updates made to resolve issues running Analogi in my environment:
+The goal of this fork of Analogi is to make updates made to resolve issues
+running Analogi in my environment available to the the community:
 	OSSEC 2.8.1
-	PHP 5.5, with E_STRICT
+	PHP 5.5 with E_STRICT
 	Debian 7.7 (wheezy)
 	Apache 2.4
 	MySQL 5.5
+	Mozilla Firefox/Internet Explorer
 
-The original application was written for inhouse analysis work, released under
-GPL to give something back by the folks at ECSC, http://www.ecsc.co.uk.
+I've applied the updates to branches to simplify things.  The latest branch is
+https://github.com/ChrisDeFreitas/analogi-c/tree/indexphp/.
 
-- all notes for Analogi-c will be in this file
+The original application was written by the folks at ECSC for inhouse analysis
+work, released under GPL to give something back, http://www.ecsc.co.uk.
+
+
+Important Notes
+===
+- I use OSSEC/Analogi on a LAN with ~10 systems and moderate traffic.  Performance is more than
+adequate.  I have not run Analgoi-c on a large LAN.
+- All notes for Analogi-c will be in README.txt:
+	https://github.com/ChrisDeFreitas/analogi-c/blob/indexphp/README.txt
 
 
 Installation
@@ -55,9 +65,10 @@ time check out the settings:
 $ vim analogi-c/config.php
 
 
-1. Master Branch, Commit 1
+0. Master Branch
+https://github.com/ChrisDeFreitas/analogi-c/tree/master/
 ===
-This commit fixes issues arising from the use of PHP's "E_STRICT"
+This branch fixes issues arising from the use of PHP's "E_STRICT"
 error reporting. When I initially ran Analogi 1.3, PHP threw a few "Undefined
 variable" errors.  It appears to be the result of having PHP's E_STRICT
 error reporting turned on.
@@ -72,13 +83,43 @@ User interface and functionality is unchanged from original Analogi 1.3. However
 there may be some functionality I can't see because its just broken.
 
 
-2. UIUpdates Branch
+1. uiupdates Branch
+https://github.com/ChrisDeFreitas/analogi-c/tree/uiupdates/
 ===
-- contains PHP fixes from Master branch
-- HTML, CSS tweaks
-- made wording more consistent
+The goal is to simplify the user interface with HTML and CSS updates. Some PHP
+tweaks were required to make HTML behave.  This branch:
+- contains PHP fixes from the Master branch
+- Filter controls moved to the top of the page
+- tweaks to colors, wording, spacing
 - added rule_id to a few lists
 - screenshot: https://github.com/ChrisDeFreitas/analogi-c/tree/uiupdates/screenshots/index.png
+
+
+2. indexphp Branch
+https://github.com/ChrisDeFreitas/analogi-c/tree/indexphp/
+===
+This update enhances existing functionality of index.php.
+
+Substantial changes were made to the Rare Rules grid.  I couldn't find any details
+about its intended use.  I've implemented it to display rules triggered the least
+in the provided query.
+
+Other Changes:
+- this branch contains updates from the master and uiupdate branches.
+- bug fixes can be found by searching for: //indexphp:
+- fixed bug in index_graph.php caused when no results returned by query
+- changed to HTML5 from XHTML to facilitate Javascript automation.
+- tweaked text
+- tweaked filter controls
+- added new file: js/app_utils.js
+- data tables are generated via Javascript
+- added to data tables: level column; sorting; sql popup window; hover text
+- added ruleId and date filters to links in RareRules
+- RareRules query, changed "signature.level>" to "signature.level>="
+- added levelmin filter to "Host Traffic" links
+- fix to dislay level filters = 0: "..., Level 0+, ..."
+- screenshot: https://github.com/ChrisDeFreitas/analogi-c/tree/uiupdates/screenshots/indexphp_2.png
+
 
 Thanks/Links
 ===
@@ -96,3 +137,4 @@ http://php.net/manual/en/migrating5.errorrep.php
 
 Chris DeFreitas
 http://datadevco.com
+
