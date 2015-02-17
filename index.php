@@ -6,10 +6,7 @@
 
 //include "php/appUtils.inc";
 //global $apputils;
-
-
 require './top.php';
-
 
 ## filter criteria 'level'
 if(isset($_GET['level']) && preg_match("/^[0-9]+$/", $_GET['level'])){
@@ -280,7 +277,7 @@ include "page_refresh.php";
 		$cat = $inputcategory != ''
 				? ", Category \"$inputcategoryname\""
 				: '';
-		if($inputlevel != '')
+		if($inputlevel !== '')
 			$cat = ", Level <span class='tw'>".$inputlevel."+</span>".$cat;
 		echo "<span class='tw'>Last ".$inputhours." hrs</span>{$cat}, Breakdown \"$graphbreakdownname\"";
 	?>

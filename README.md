@@ -1,5 +1,5 @@
-open https://github.com/ChrisDeFreitas/analogi-c/tree/indexphp/README.txt to view the properly formatted text.
-
+To view the properly formatted text:
+  https://github.com/ChrisDeFreitas/analogi-c/tree/indexphp/README.txt
 
 AnaLogi-c 0.1
 Web interface for OSSEC based on AnaLogi v1.3
@@ -100,16 +100,24 @@ https://github.com/ChrisDeFreitas/analogi-c/tree/indexphp/
 ===
 This update enhances existing functionality of index.php.
 
-Changes:
+Substantial changes were made to the Rare Rules grid.  I couldn't find any details
+about its intended use.  I've implemented it to display rules triggered the least
+in the provided query.
+
+Other Changes:
 - this branch contains updates from the master and uiupdate branches.
 - bug fixes can be found by searching for: //indexphp:
 - fixed bug in index_graph.php caused when no results returned by query
 - changed to HTML5 from XHTML to facilitate Javascript automation.
 - tweaked text
-- tweaked filter conotrols
+- tweaked filter controls
 - added new file: js/app_utils.js
 - data tables are generated via Javascript
-- added to data tables: level column; sorting; sql popup window
+- added to data tables: level column; sorting; sql popup window; hover text
+- added ruleId and date filters to links in RareRules
+- RareRules query, changed "signature.level>" to "signature.level>="
+- added levelmin filter to "Host Traffic" links
+- fix to dislay level filters = 0: "..., Level 0+, ..."
 - screenshot: https://github.com/ChrisDeFreitas/analogi-c/tree/uiupdates/screenshots/indexphp_2.png
 
 

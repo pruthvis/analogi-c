@@ -31,12 +31,11 @@
 		<a class='tinyblack' href='./index.php?'>Home</a> &nbsp;
 		<a class='tinyblack' href='./newsfeed.php?'>NewsFeed</a> &nbsp;
 		<a class='tinyblack' href='./massmonitoring.php?'>Monitor</a> &nbsp;
-		<a class='tinyblack' href='./detail.php?from=<?php echo date("Hi dmy", (time()-(3600*24*30))) ?>'>Search</a> &nbsp;
+		<a class='tinyblack' href='./detail.php?from=<?php echo date("Hi dmy", (time()-(3600*24*30))) ?>'>Query</a> &nbsp;
 		<a class='tinyblack' href='./ip_info.php?'>IP Search</a> &nbsp;
 		<a class='tinyblack' onclick='alert("Warning : Due to the complexity of the code, this page may take a few minute to load."); window.location="./management.php"' href='#' >Management</a> &nbsp;
 		<a class='tinyblack' href='./about.php'>About</a> &nbsp;
-		<a class='tinyblack' href='/wui/'>WUI</a> &nbsp;
-		<a class='tinyblack' href='/git/analogi-c/uiupdates'>analogi-c</a> &nbsp;
+		<a class='tinyblack' href='https://github.com/ChrisDeFreitas/analogi-c/blob/indexphp/README.txt'>analogi-c</a> &nbsp;
 		<?php
 		if(isset($wallboard_url))	//fixed: undefined var $wallboard_url
 			echo $wallboard_url;

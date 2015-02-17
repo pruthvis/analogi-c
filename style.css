@@ -334,14 +334,14 @@ a.tooltip img {
 /*#topRulesTable td:nth-child(4) { }*/
 
 /*#topRareDivParent { }*/
-#topRareTable th:nth-child(1) { width: 8em }
-#topRareTable th:nth-child(2) { width: 4em }
-#topRareTable th:nth-child(3) { width: 5em }
-/*#topRareTable th:nth-child(4) {  }*/
+#topRareTable th:nth-child(1) { width: 10em}
+#topRareTable th:nth-child(2) { width: 5em}
+#topRareTable th:nth-child(3) { width: 4em}
+#topRareTable th:nth-child(4) { width: 5em}
 #topRareTable td:nth-child(1) { text-align:center }
-#topRareTable td:nth-child(2) { text-align:right; padding-right: 5px}
-#topRareTable td:nth-child(3) { text-align:right; padding-right: 10px}
-/*#topRareTable td:nth-child(4) { }*/
+#topRareTable td:nth-child(2) { text-align:right;padding-right: 10px}
+#topRareTable td:nth-child(3) { text-align:right;padding-right: 5px}
+#topRareTable td:nth-child(4) { text-align:right;padding-right: 10px}
 
 /* class for sortable.js*/
 .sortarrow {	 /* span contining arrow*/

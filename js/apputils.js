@@ -17,7 +17,8 @@ var clsAppUtils = function() {
 							 										data: 	 [],
 							 										ctrlPrefix: '',
 							 										colHeads: null,
-							 										sql: ''
+							 										sql: '',
+							 										hint: ''	//assigned to title attrib of caption
 																},
 																aparams
 															);
@@ -26,9 +27,10 @@ var clsAppUtils = function() {
 				apputils[params.ctrlPrefix+'SQL'] = params.sql;
 				//alert(apputils[params.ctrlPrefix+'SQL']);
 		}
+		if(params.caption == undefined) params.caption = '';
 		var	stmp = "<div id='"+params.ctrlPrefix+"DivParent'>"
 							 + "<div class='dataTableHeader'>"
-								 + "<span class=''>"+params.caption+"</span>"
+								 + "<span class='' title='"+params.hint+"'>"+params.caption+"</span>"
 								 + "<span class=dataTableIcons>"
 								 + (params.sql === '' ? '' : "<span href='#' onclick='apputils.showSQL(\""+params.ctrlPrefix+"\");' title='View SQL command'>SQL</span>")
 							 + "</span></div>"

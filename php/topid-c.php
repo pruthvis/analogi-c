@@ -77,13 +77,15 @@ if(!$result=mysql_query($query, $db_ossec)){
 	echo "\ndata = $stmp;";
 	echo "\nsql = ".json_encode($query, JSON_HEX_AMP |JSON_HEX_APOS |JSON_BIGINT_AS_STRING |JSON_HEX_QUOT |JSON_HEX_TAG ).";\n";
 	echo "\nvar caption = 'Rule Traffic'\n\n";
+	echo "\nvar hint = '$glb_indexsubtablelimit least frequently seen rules in this query'\n\n";
 ?>
 		//generate display controls
-		var html = apputils.tableGen({ caption: caption,
-																 data: data,
-																 colHeads:  ['#Alerts','Level','RuleID','Description'],
-															 	 ctrlPrefix: 'topRules',		//table.id = topRulesTable
-															 	 sql: sql
+		var html = apputils.tableGen({caption: caption,
+																 	data: data,
+																 	colHeads:  ['#Alerts','Level','RuleID','Description'],
+																	ctrlPrefix: 'topRules',		//table.id = topRulesTable
+															 	 	sql: sql,
+															 	 	hint: hint
 																});
 		$("#divTopRule").html(html);
 

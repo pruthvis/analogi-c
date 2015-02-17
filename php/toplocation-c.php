@@ -68,12 +68,12 @@ if(!$result=mysql_query($query, $db_ossec)){
 }else{
 
 	$from = date("Hi dmy", (time()-($inputhours*3600)));
-	$detailshours = (isset($_GET['level']) ? $detailshours="&level=".$inputlevel : "");
+	$detailshours = (isset($_GET['level']) ? $detailshours="&levelmin=".$inputlevel : "");
 
 	while($row = @mysql_fetch_assoc($result)){
 		$host = htmlspecialchars(preg_replace($glb_hostnamereplace, "", $row['res_name']));
 		$data[] = array( number_format($row['res_cnt']),
-										"<a href='./detail.php?source=".$row['res_name']."&level=".$inputlevel."&from=".$from.$detailshours."&breakdown=rule_id'>"
+										"<a href='./detail.php?source=".$row['res_name']."&levelmin=".$inputlevel."&from=".$from.$detailshours."&breakdown=rule_id'>"
 										.$host
 										."</a>"
 										);
@@ -84,7 +84,7 @@ if(!$result=mysql_query($query, $db_ossec)){
 	foreach($hostnames as $rawhost) {
 		$host = htmlspecialchars(preg_replace($glb_hostnamereplace, "", $rawhost));
 		$data[] = array( '0',
-										"<a href='./detail.php?source=".$rawhost."&level=".$inputlevel."&from=".$from.$detailshours."&breakdown=rule_id'>"
+										"<a href='./detail.php?source=".$rawhost."&levelmin=".$inputlevel."&from=".$from.$detailshours."&breakdown=rule_id'>"
 										.$host
 										."</a>"
 										);
@@ -111,10 +111,11 @@ if(!$result=mysql_query($query, $db_ossec)){
 ?>
 		//generate controls in a string
 		var str = apputils.tableGen({ caption: caption,
-																 data: data,
-																 colHeads:  ['#Alerts','Host'],
-															 	 ctrlPrefix: 'topHosts',		//table.id = topHostsTable
-															 	 sql: sql
+																 	data: data,
+																 	colHeads:  ['#Alerts','Host'],
+															 	 	ctrlPrefix: 'topHosts',		//table.id = topHostsTable
+															 	 	sql: sql,
+															 	 	hint: 'Number of alerts in query from each host'
 																});
 		$("#divTopHosts").html(str);
 	});
