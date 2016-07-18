@@ -28,7 +28,7 @@ $query="select distinct(alert.rule_id)
 //changed: Feb2014, re-imagined how rare rules works
 $limit = $glb_indexsubtablelimit > 0 ?$glb_indexsubtablelimit :5;
 $query="select alert.rule_id, COUNT(*) AS cnt, signature.description AS descr, signature.level
-	from alert, signature
+	from alert, signature, category
 	where alert.timestamp>".(time()-($inputhours*3600))."
 	and alert.rule_id=signature.rule_id
 	and signature.level>=".$inputlevel."
